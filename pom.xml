@@ -78,6 +78,7 @@
         <module>core</module>
         <module>generatedkey</module>
         <module>keyrepository</module>
+        <module>doc</module>
     </modules>
 
     <build>

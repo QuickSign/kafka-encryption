@@ -1,0 +1,5 @@
+# Quicksign Kafka Encryption
+
+v{project-version}
+
+TODO
