@@ -19,7 +19,7 @@
  */
 package io.quicksign.kafka.crypto.keyrepository;
 
-public interface KeyNameObfucator {
+public interface KeyNameObfuscator {
 
     byte[] obfuscate(String keyName);
 

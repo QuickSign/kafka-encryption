@@ -26,17 +26,16 @@ import io.quicksign.kafka.crypto.encryption.KeyProvider;
 public class RepositoryBasedKeyProvider implements KeyProvider {
 
     private final KeyRepository keyRepository;
-    private final KeyNameObfucator keyNameObfucator;
+    private final KeyNameObfuscator keyNameObfuscator;
 
-    public RepositoryBasedKeyProvider(KeyRepository keyRepository, KeyNameObfucator keyNameObfucator) {
-
+    public RepositoryBasedKeyProvider(KeyRepository keyRepository, KeyNameObfuscator keyNameObfuscator) {
         this.keyRepository = keyRepository;
-        this.keyNameObfucator = keyNameObfucator;
+        this.keyNameObfuscator = keyNameObfuscator;
     }
 
 
     @Override
     public Optional<byte[]> getKey(byte[] keyRef) {
-        return keyRepository.getKey(keyNameObfucator.unObfuscate(keyRef));
+        return keyRepository.getKey(keyNameObfuscator.unObfuscate(keyRef));
     }
 }

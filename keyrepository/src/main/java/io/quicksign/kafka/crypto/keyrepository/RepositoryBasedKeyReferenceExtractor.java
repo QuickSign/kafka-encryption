@@ -24,18 +24,18 @@ import io.quicksign.kafka.crypto.pairing.keyextractor.KeyReferenceExtractor;
 public class RepositoryBasedKeyReferenceExtractor implements KeyReferenceExtractor {
 
     private final KeyNameExtractor keyNameExtractor;
-    private final KeyNameObfucator keyNameObfucator;
+    private final KeyNameObfuscator keyNameObfuscator;
 
-    public RepositoryBasedKeyReferenceExtractor(KeyNameExtractor keyNameExtractor, KeyNameObfucator keyNameObfucator) {
+    public RepositoryBasedKeyReferenceExtractor(KeyNameExtractor keyNameExtractor, KeyNameObfuscator keyNameObfuscator) {
 
         this.keyNameExtractor = keyNameExtractor;
-        this.keyNameObfucator = keyNameObfucator;
+        this.keyNameObfuscator = keyNameObfuscator;
     }
 
 
     @Override
     public byte[] extractKeyReference(String topic, Object key) {
         String keyName = keyNameExtractor.extractKeyName(topic, key);
-        return keyName == null ? null : keyNameObfucator.obfuscate(keyName);
+        return keyName == null ? null : keyNameObfuscator.obfuscate(keyName);
     }
 }
