@@ -2,4 +2,15 @@
 
 v{project-version}
 
-TODO
+## Usage
+
+### Import maven dependency
+
+[source,xml,subs="attributes+"]
+....
+<dependency>
+    <groupId>{project-groupId}</groupId>
+    <artifactId>kafka-encryption-core</artifactId>
+    <version>{project-version}</version>
+</dependency>
+....
