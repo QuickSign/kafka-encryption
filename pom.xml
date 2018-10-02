@@ -76,6 +76,7 @@
 
     <modules>
         <module>core</module>
+        <module>generatedkey</module>
     </modules>
 
     <build>
