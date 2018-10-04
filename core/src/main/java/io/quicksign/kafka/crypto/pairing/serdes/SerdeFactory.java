@@ -21,8 +21,23 @@ package io.quicksign.kafka.crypto.pairing.serdes;
 
 import org.apache.kafka.common.serialization.Serde;
 
-
+/**
+ * A factory to pair 2 {@link org.apache.kafka.common.serialization.Serde Serde}
+ *
+ * Main usage is for Kafka Streams
+ *
+ */
 public interface SerdeFactory {
+
+    /**
+     * Pair the keySerde with the valueSerde
+     *
+     * @param keySerde
+     * @param valueSerde
+     * @param <K>
+     * @param <V>
+     * @return
+     */
     <K, V> SerdesPair<K, V> buildSerdesPair(Serde<K> keySerde, Serde<V> valueSerde);
 
     <V> Serde<V> buildSelfCryptoAwareSerde(Serde<V> valueSerde);

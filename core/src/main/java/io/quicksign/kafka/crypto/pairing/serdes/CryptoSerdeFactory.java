@@ -31,12 +31,30 @@ import io.quicksign.kafka.crypto.Encryptor;
 import io.quicksign.kafka.crypto.pairing.internal.CryptoAwareSerializerWrapper;
 import io.quicksign.kafka.crypto.pairing.keyextractor.KeyReferenceExtractor;
 
+/**
+ * Factory for pairing 2 serde using encryption.
+ * <ul>
+ * <li>The serializer of the keySerde will be wrapped to call the {@link KeyReferenceExtractor}</li>
+ * <li>The serializer of the valueSerde will be wrapped into a {@link CryptoSerializer}</li>
+ * <li>The deserializer of the valueSerde will be wrapped into a {@link CryptoDeserializer}</li>
+ * </ul>
+ * The keyref extracted by the wrapped key serializer will be shared with the wrapped value serializer using a {@link ThreadLocal}
+ *
+ * @See io.quicksign.kafka.crypto.pairing.internal.CryptoAwareSerializerWrapper
+ *
+ */
 public class CryptoSerdeFactory implements SerdeFactory {
 
     private final Encryptor encryptor;
     private final Decryptor decryptor;
     private final KeyReferenceExtractor keyReferenceExtractor;
 
+    /**
+     *
+     * @param encryptor used for value encryption
+     * @param decryptor used for value decryption
+     * @param keyReferenceExtractor used to
+     */
     public CryptoSerdeFactory(Encryptor encryptor, Decryptor decryptor, KeyReferenceExtractor keyReferenceExtractor) {
 
         this.encryptor = encryptor;
@@ -57,13 +75,7 @@ public class CryptoSerdeFactory implements SerdeFactory {
     }
 
     /**
-     * warning: the pair has to be used together
-     *
-     * @param keySerde
-     * @param valueSerde
-     * @param <K>
-     * @param <V>
-     * @return
+     * {@inheritDoc}
      */
     @Override
     public <K, V> SerdesPair<K, V> buildSerdesPair(Serde<K> keySerde, Serde<V> valueSerde) {
@@ -76,6 +88,13 @@ public class CryptoSerdeFactory implements SerdeFactory {
         return new SerdesPair<>(newKeySerde, newValueSerde);
     }
 
+    /**
+     * used when the keyref can be deducted directly from the value
+     *
+     * @param valueSerde
+     * @param <V>
+     * @return
+     */
     @Override
     public <V> Serde<V> buildSelfCryptoAwareSerde(Serde<V> valueSerde) {
         ThreadLocal<byte[]> keyRefHolder = new ThreadLocal<>();

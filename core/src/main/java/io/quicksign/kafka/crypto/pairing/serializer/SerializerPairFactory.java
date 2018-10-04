@@ -21,7 +21,20 @@ package io.quicksign.kafka.crypto.pairing.serializer;
 
 import org.apache.kafka.common.serialization.Serializer;
 
+/**
+ * A factory to pair 2 {@link Serializer}
+ *
+ * Main usage is with <i>traditional</i> Kafka Producer
+ */
 public interface SerializerPairFactory {
 
-    <K, V> SerializerPair<K, V> build(Serializer<K> rawKeySerializer, Serializer<V> rawValueSerializer);
+    /**
+     * Pair the keySerializer with the value serializer
+     * @param keySerializer
+     * @param valueSerializer
+     * @param <K>
+     * @param <V>
+     * @return
+     */
+    <K, V> SerializerPair<K, V> build(Serializer<K> keySerializer, Serializer<V> valueSerializer);
 }

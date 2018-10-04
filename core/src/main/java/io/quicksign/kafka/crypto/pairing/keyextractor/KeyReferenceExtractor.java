@@ -20,9 +20,21 @@
 package io.quicksign.kafka.crypto.pairing.keyextractor;
 
 /**
- *  Used at encryption time to extract the key reference from topic and message key
+ *  Used at encryption time to compute the keyref associated to the message key.
+ *
+ *  The choice of a {@link KeyReferenceExtractor} has to be done accordingly
+ *  to the chosen {@link io.quicksign.kafka.crypto.encryption.KeyProvider KeyProvider}
+ *
+ * @see io.quicksign.kafka.crypto.encryption.KeyProvider
  */
 public interface KeyReferenceExtractor {
 
+    /**
+     * Compute the key reference for a message
+     *
+     * @param topic the topic name on which the message is about to be published
+     * @param key the message key (in nominal case)
+     * @return the keyref
+     */
     byte[] extractKeyReference(String topic, Object key);
 }

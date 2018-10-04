@@ -21,6 +21,11 @@ package io.quicksign.kafka.crypto.pairing.serializer;
 
 import org.apache.kafka.common.serialization.Serializer;
 
+/**
+ * Represent paired {@link Serializer}
+ * @param <K>
+ * @param <V>
+ */
 public class SerializerPair<K, V> {
 
     private final Serializer<K> keySerializer;

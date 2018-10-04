@@ -26,6 +26,11 @@ import org.apache.kafka.streams.kstream.Produced;
 import org.apache.kafka.streams.kstream.Serialized;
 import org.apache.kafka.streams.processor.StateStore;
 
+/**
+ * Represent paired keySerde and valueSerde
+ * @param <K>
+ * @param <V>
+ */
 public class SerdesPair<K, V> {
 
     private final Serde<K> keySerde;
@@ -45,19 +50,38 @@ public class SerdesPair<K, V> {
         return valueSerde;
     }
 
+    /**
+     * Build a {@link Serialized} using the keySerde and valueSerde of the pair
+     * @return
+     */
     public Serialized<K, V> toSerialized() {
         return Serialized.with(keySerde, valueSerde);
     }
 
+    /**
+     * Build a {@link Produced} using the keySerde and valueSerde of the pair
+     * @return
+     */
     public Produced<K, V> toProduced() {
         return Produced.with(keySerde, valueSerde);
     }
 
+    /**
+     * Build a {@link Consumed} using the keySerde and valueSerde of the pair
+     * @return
+     */
     public Consumed<K, V> toConsumed() {
         return Consumed.with(keySerde, valueSerde);
     }
 
 
+    /**
+     * Apply the keySerde and valueSerde of the pair to a {@link Materialized}
+     *
+     * @param materialized
+     * @param <S>
+     * @return
+     */
     public <S extends StateStore> Materialized<K, V, S> applyTo(Materialized<K, V, S> materialized) {
         return materialized.withKeySerde(keySerde).withValueSerde(valueSerde);
     }

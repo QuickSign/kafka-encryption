@@ -21,8 +21,14 @@ package io.quicksign.kafka.crypto;
 
 public class KafkaCryptoConstants {
 
+    /**
+     * header name to handle the key reference
+     */
     public static final String KEY_REF_HEADER = "keKeyReference";
 
+    /**
+     * "magic" prefix added to all encrypted messages
+     */
     public static final byte[] ENCRYPTED_PREFIX = {0x2B, 0x45, 0x2B, 0x1B, 0x2B, 0x46};
 
     private KafkaCryptoConstants() {

@@ -19,9 +19,33 @@
  */
 package io.quicksign.kafka.crypto.encryption;
 
+/**
+ * Interface to handle cryptographic algorithm
+ * It has to be a symetric-key algorithm
+ *
+ *
+ * @see DefaultDecryptor
+ * @see DefaultEncryptor
+ */
 public interface CryptoAlgorithm {
 
+    /**
+     * Encrypt the data using the provided key
+     *
+     * @param data message to be encrypted
+     * @param key encryption key
+     * @return encrypted message
+     * @throws Exception
+     */
     byte[] encrypt(byte[] data, byte[] key) throws Exception;
 
+    /**
+     * Decrypt the data using the provided key
+     *
+     * @param encryptedData message to be decrypted
+     * @param key encryption key
+     * @return decrypted message
+     * @throws Exception
+     */
     byte[] decrypt(byte[] encryptedData, byte[] key) throws Exception;
 }

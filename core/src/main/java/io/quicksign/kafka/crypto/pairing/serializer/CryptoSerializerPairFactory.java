@@ -27,6 +27,14 @@ import io.quicksign.kafka.crypto.Encryptor;
 import io.quicksign.kafka.crypto.pairing.internal.CryptoAwareSerializerWrapper;
 import io.quicksign.kafka.crypto.pairing.keyextractor.KeyReferenceExtractor;
 
+/**
+ * A factory to pair 2 serializers
+ * <ul>
+ *     <li>the keySerializer is wrapped to call the {@link KeyReferenceExtractor}</li>
+ *     <li> the valueSerializer is wrapped into a {@link CryptoSerializer} </li>
+ * </ul>
+ * The keyref extracted by the wrapped key serializer will be shared with the wrapped value serializer using Kafka headers
+ */
 public class CryptoSerializerPairFactory implements SerializerPairFactory {
 
     private final Encryptor encryptor;
@@ -37,10 +45,13 @@ public class CryptoSerializerPairFactory implements SerializerPairFactory {
         this.keyReferenceExtractor = keyReferenceExtractor;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public <K, V> SerializerPair<K, V> build(Serializer<K> rawKeySerializer, Serializer<V> rawValueSerializer) {
-        Serializer<K> keySerializer = new CryptoAwareSerializerWrapper<K>(rawKeySerializer, keyReferenceExtractor, null);
-        Serializer<V> valueSerializer = new CryptoSerializer<>(ExtendedSerializer.Wrapper.ensureExtended(rawValueSerializer), encryptor, null);
-        return new SerializerPair<>(keySerializer, valueSerializer);
+    public <K, V> SerializerPair<K, V> build(Serializer<K> keySerializer, Serializer<V> valueSerializer) {
+        Serializer<K> newKeySerializer = new CryptoAwareSerializerWrapper<K>(keySerializer, keyReferenceExtractor, null);
+        Serializer<V> newvalueSerializer = new CryptoSerializer<>(ExtendedSerializer.Wrapper.ensureExtended(valueSerializer), encryptor, null);
+        return new SerializerPair<>(newKeySerializer, newvalueSerializer);
     }
 }
