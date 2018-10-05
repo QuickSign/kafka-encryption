@@ -21,11 +21,23 @@ package io.quicksign.kafka.crypto.keyrepository;
 
 import io.quicksign.kafka.crypto.pairing.keyextractor.KeyReferenceExtractor;
 
+
+/**
+ * KeyReference used when the key to use is stored on a repository, and the key to use can be computed from the record key
+ *
+ * @see KeyNameExtractor
+ * @see KeyNameObfuscator
+ */
 public class RepositoryBasedKeyReferenceExtractor implements KeyReferenceExtractor {
 
     private final KeyNameExtractor keyNameExtractor;
     private final KeyNameObfuscator keyNameObfuscator;
 
+    /**
+     *
+     * @param keyNameExtractor used to compute the keyName
+     * @param keyNameObfuscator used to obfuscate the keyName
+     */
     public RepositoryBasedKeyReferenceExtractor(KeyNameExtractor keyNameExtractor, KeyNameObfuscator keyNameObfuscator) {
 
         this.keyNameExtractor = keyNameExtractor;

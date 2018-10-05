@@ -21,6 +21,11 @@ package io.quicksign.kafka.crypto.generatedkey;
 
 import io.quicksign.kafka.crypto.pairing.keyextractor.KeyReferenceExtractor;
 
+/**
+ * KeyReference extractor that will generate an new key for each record.
+ * The key reference will be the key encrypted by the master key.
+ *
+ */
 public class KeyPerRecordKeyReferenceExtractor implements KeyReferenceExtractor {
 
     private final CryptoKeyGenerator cryptoKeyGenerator;

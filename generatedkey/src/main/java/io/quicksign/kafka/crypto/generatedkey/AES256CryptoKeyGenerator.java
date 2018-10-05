@@ -30,6 +30,7 @@ import javax.crypto.SecretKey;
 public class AES256CryptoKeyGenerator implements CryptoKeyGenerator {
 
     /**
+     * Generate a new AES-256 encryption key
      *
      * @return a new AES-256 encryption key
      */

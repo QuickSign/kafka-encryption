@@ -23,17 +23,34 @@ import java.util.Optional;
 
 import io.quicksign.kafka.crypto.encryption.KeyProvider;
 
+/**
+ * KeyProvider based on a key repository
+ *
+ * @see KeyRepository
+ * @see KeyNameObfuscator
+ *
+ */
 public class RepositoryBasedKeyProvider implements KeyProvider {
 
     private final KeyRepository keyRepository;
     private final KeyNameObfuscator keyNameObfuscator;
 
+    /**
+     *
+     * @param keyRepository the repository for retrieving keys
+     * @param keyNameObfuscator KeyNameObfuscator used to unobfuscate the keyName
+     */
     public RepositoryBasedKeyProvider(KeyRepository keyRepository, KeyNameObfuscator keyNameObfuscator) {
         this.keyRepository = keyRepository;
         this.keyNameObfuscator = keyNameObfuscator;
     }
 
-
+    /**
+     * Retrieve the key on the key repository. It will first unobfucate the keyRef to obtain the keyName.
+     *
+     * @param keyRef the reference of the key to retrieve
+     * @return
+     */
     @Override
     public Optional<byte[]> getKey(byte[] keyRef) {
         return keyRepository.getKey(keyNameObfuscator.unObfuscate(keyRef));

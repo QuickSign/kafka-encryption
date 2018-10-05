@@ -23,6 +23,12 @@ import java.util.Optional;
 
 import io.quicksign.kafka.crypto.encryption.KeyProvider;
 
+/**
+ * This key provider consider key reference as the result of the encryption by a master.
+ *
+ * It will try to decrypt the key using the master key. The result will be {@link Optional#EMPTY} if the key can not be decrypted
+ *
+ */
 public class PerRecordKeyProvider implements KeyProvider {
 
     private final MasterKeyEncryption masterKeyEncryption;
@@ -35,6 +41,6 @@ public class PerRecordKeyProvider implements KeyProvider {
 
     @Override
     public Optional<byte[]> getKey(byte[] keyRef) {
-        return Optional.of(masterKeyEncryption.decryptKey(keyRef));
+        return Optional.ofNullable(masterKeyEncryption.decryptKey(keyRef));
     }
 }

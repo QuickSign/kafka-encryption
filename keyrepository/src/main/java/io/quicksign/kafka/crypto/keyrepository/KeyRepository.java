@@ -21,7 +21,18 @@ package io.quicksign.kafka.crypto.keyrepository;
 
 import java.util.Optional;
 
+/**
+ * It provides a key according to its name.
+ * It can represent keys stored on a Vault.
+ */
 public interface KeyRepository {
 
+    /**
+     * It retrieves the key from the key repository.
+     * It will return {@link Optional#EMPTY} if the key can not be found on the key repository
+     *
+     * @param keyName
+     * @return
+     */
     Optional<byte[]> getKey(String keyName);
 }

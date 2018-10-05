@@ -19,6 +19,14 @@
  */
 package io.quicksign.kafka.crypto.keyrepository;
 
+/**
+ * <p>Obfuscate the keyName to obtain the keyRef. Obfuscation has to be reversible.</p>
+ *
+ * <p>Calling several time {@link #obfuscate(String)}</p> with the same keyName may give
+ * different results. It is recommend to not let appear in the Kafka the same key reference
+ * in several records</p>
+ *
+ */
 public interface KeyNameObfuscator {
 
     byte[] obfuscate(String keyName);

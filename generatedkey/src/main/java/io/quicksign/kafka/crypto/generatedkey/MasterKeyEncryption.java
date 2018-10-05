@@ -19,9 +19,23 @@
  */
 package io.quicksign.kafka.crypto.generatedkey;
 
+/**
+ * Encryption to encrypt/decrypt generated keys
+ */
 public interface MasterKeyEncryption {
 
+    /**
+     * encrypt the provided key with a master key
+     *
+     * @param key the key to be encrypted
+     * @return
+     */
     byte[] encryptKey(byte[] key);
 
+    /**
+     * decrypt the key with a master key
+     * @param encryptedKey
+     * @return the decrypted key or {@code null} if the key can not be decrypted
+     */
     byte[] decryptKey(byte[] encryptedKey);
 }
