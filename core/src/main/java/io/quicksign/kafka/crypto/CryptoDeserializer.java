@@ -24,15 +24,39 @@ import static io.quicksign.kafka.crypto.KafkaCryptoConstants.KEY_REF_HEADER;
 
 import java.nio.ByteBuffer;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.kafka.common.header.Headers;
 import org.apache.kafka.common.header.internals.RecordHeaders;
+import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.ExtendedDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.quicksign.kafka.crypto.utils.ArrayUtils;
 
+/**
+ * <p>Deserializer for encrypted data</p>
+ *
+ * <p>If the data to deserialize starts with the magic bytes {@link KafkaCryptoConstants#ENCRYPTED_PREFIX},
+ * then the data is decrypted using the {@link Decryptor}.The result is then deserialized using the underlying Deserializer.
+ * If the data where not successfully decrypted, the result of the deserialization will be {@code null}
+ * </p>
+ *
+ * <p>If the data to deserialize does not starts with the magic bytes, it is directly deserialized using the underlying Deserializer
+ * </p>
+ *
+ * <p>Please note that this Deserializer has no default constructor, so it can not be configured via properties.
+ * So if you want to use it into a Consumer, you will have to use {@link org.apache.kafka.clients.consumer.KafkaConsumer#KafkaConsumer(Properties, Deserializer, Deserializer)}
+ * or {@link org.apache.kafka.clients.consumer.KafkaConsumer#KafkaConsumer(Map, Deserializer, Deserializer)} with your
+ * instance of CryptoDeserializer
+ * </p>
+ *
+ * @param <T>
+ *
+ * @see CryptoSerializer
+ * @see Decryptor
+ */
 public class CryptoDeserializer<T> implements ExtendedDeserializer<T> {
 
     private static final Logger log = LoggerFactory.getLogger(CryptoDeserializer.class);
@@ -40,12 +64,27 @@ public class CryptoDeserializer<T> implements ExtendedDeserializer<T> {
     private final ExtendedDeserializer<? extends T> rawDeserializer;
     private final Decryptor decryptor;
 
+    /**
+     *
+     * @param rawDeserializer deserializer to deserialize clear data
+     * @param decryptor Decryptor used to decrypt the data
+     */
     public CryptoDeserializer(ExtendedDeserializer<? extends T> rawDeserializer, Decryptor decryptor) {
 
         this.rawDeserializer = rawDeserializer;
         this.decryptor = decryptor;
     }
 
+
+    /**
+     * deserialize the data (with decryption if needed)
+     * The keyref used to deserialize the data will be added to the header {@link KafkaCryptoConstants#KEY_REF_HEADER} (may be {@code null})
+     *
+     * @param topic
+     * @param headers they will be enriched with header {@link KafkaCryptoConstants#KEY_REF_HEADER}
+     * @param data
+     * @return the deserialized data
+     */
     @Override
     public T deserialize(String topic, Headers headers, byte[] data) {
         if (data == null) {
@@ -67,6 +106,19 @@ public class CryptoDeserializer<T> implements ExtendedDeserializer<T> {
         this.rawDeserializer.configure(configs, isKey);
     }
 
+    /**
+     * deserialize the data (with decryption if needed)
+     * It is equivalent to:
+     * <pre>{@code
+     *  deserialize(topic, new RecordHeaders(), data);
+     * }</pre>
+     *
+     * @see #deserialize(String, Headers, byte[])
+     *
+     * @param topic
+     * @param data
+     * @return
+     */
     @Override
     public T deserialize(String topic, byte[] data) {
         return deserialize(topic, new RecordHeaders(), data);

@@ -26,6 +26,12 @@ import org.slf4j.LoggerFactory;
 
 import io.quicksign.kafka.crypto.Decryptor;
 
+/**
+ * Default implementation of Decryptor.
+ * It uses a {@link KeyProvider} to retrieve the key associated to keyr references.
+ * It use a {@link CryptoAlgorithm} to decrypt the data
+ *
+ */
 public class DefaultDecryptor implements Decryptor {
 
     private static final Logger log = LoggerFactory.getLogger(DefaultDecryptor.class);
@@ -40,6 +46,11 @@ public class DefaultDecryptor implements Decryptor {
     }
 
 
+    /**
+     *
+     * {@inheritDoc}
+     *
+     */
     @Override
     public byte[] decrypt(byte[] value, byte[] keyRef) {
         //error on key retrieving must stop the world

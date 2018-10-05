@@ -19,7 +19,20 @@
  */
 package io.quicksign.kafka.crypto;
 
+/**
+ * Interface for encryption. It encapsulates the retriaval of the encryption key using the key reference
+ * and the encryption of the data
+ */
 public interface Encryptor {
 
+    /**
+     * Encrypt the data.
+     * It will return null if encryption fails or if the key associated to the key reference
+     * can not be found.
+     *
+     * @param value value to be encrypted
+     * @param keyRef reference of the key
+     * @return the encrypted value or {@code null} if the encryption fails
+     */
     byte[] encrypt(byte[] value, byte[] keyRef);
 }

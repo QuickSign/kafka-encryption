@@ -19,8 +19,20 @@
  */
 package io.quicksign.kafka.crypto;
 
+/**
+ * Interface for decryption. It encapsulates the retriaval of the decryption key using the key reference
+ * and the decryption of the data
+ */
 public interface Decryptor {
 
+    /**
+     * Decrypt the data.
+     * It will return null if the key can not be retrieve or if decryption fails.
+     *
+     * @param data value to be decrypted
+     * @param keyRef reference to the decryption key
+     * @return the decrypted value or {@code null}null if the key can not be retieve or if decryption fails
+     */
     byte[] decrypt(byte[] data, byte[] keyRef);
 
 }

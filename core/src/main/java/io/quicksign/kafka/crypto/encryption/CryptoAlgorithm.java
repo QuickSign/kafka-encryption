@@ -21,8 +21,6 @@ package io.quicksign.kafka.crypto.encryption;
 
 /**
  * Interface to handle cryptographic algorithm
- * It has to be a symetric-key algorithm
- *
  *
  * @see DefaultDecryptor
  * @see DefaultEncryptor
