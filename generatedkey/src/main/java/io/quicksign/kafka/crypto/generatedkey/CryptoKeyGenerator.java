@@ -19,8 +19,15 @@
  */
 package io.quicksign.kafka.crypto.generatedkey;
 
-
+/**
+ * Generator for symetric encryption keys
+ */
 public interface CryptoKeyGenerator {
 
+    /**
+     * generate a symetric encryption key
+     *
+     * @return an encryption key
+     */
     byte[] generateKey();
 }

@@ -48,7 +48,7 @@ public class DefaultEncryptor implements Encryptor {
     /**
      *
      * {@inheritDoc}
-     * 
+     *
      */
     @Override
     public byte[] encrypt(byte[] value, byte[] keyRef) {

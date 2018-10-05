@@ -24,8 +24,15 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
+/**
+ * Generator for AES-256 encryption key
+ */
 public class AES256CryptoKeyGenerator implements CryptoKeyGenerator {
 
+    /**
+     *
+     * @return a new AES-256 encryption key
+     */
     @Override
     public byte[] generateKey() {
         try {
