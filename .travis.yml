@@ -1,2 +1,10 @@
 language: java
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as an environment variable
+  keep-history: false
+  local-dir: target/generated-docs/
+  on:
+    branch: master
 
