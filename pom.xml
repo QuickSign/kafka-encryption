@@ -50,19 +50,19 @@
             <dependency>
                 <groupId>io.quicksign</groupId>
                 <artifactId>kafka-encryption-core</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.quicksign</groupId>
                 <artifactId>kafka-encryption-generatedkey</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.quicksign</groupId>
                 <artifactId>kafka-encryption-keyrepository</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
