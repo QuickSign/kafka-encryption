@@ -19,7 +19,7 @@
 
     <groupId>io.quicksign</groupId>
     <artifactId>kafka-encryption-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>empty</version>
     <packaging>pom</packaging>
 
     <name>kafka-encryption-parent</name>
