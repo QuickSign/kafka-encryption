@@ -23,12 +23,26 @@
     <packaging>pom</packaging>
 
     <name>kafka-encryption-parent</name>
-    <description>Encryption for Kafka Records</description>
+    <description>End to end encryption for Kafka</description>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>git@github.com:quicksign/kafka-encryption.git</connection>
+        <developerConnection>git@github.com:quicksign/kafka-encryption.git</developerConnection>
+        <url>https://github.com/quicksign/kafka-encryption</url>
+    </scm>
 
     <properties>
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <kafka.version>1.1.0</kafka.version>
     </properties>
@@ -128,7 +142,43 @@
                 <configuration>
                     <show>protected</show>
                     <nohelp>true</nohelp>
+                    <additionalJOption>-Xdoclint:none</additionalJOption>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
