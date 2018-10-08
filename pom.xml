@@ -50,7 +50,7 @@
     <distributionManagement>
         <repository>
             <id>bintray-repo-public-kafka-encryption</id>
-            <url>https://api.bintray.com/maven/quicksign/maven-public/kafka-encryption/;publish=1</url>
+            <url>https://api.bintray.com/maven/quicksign/maven-staging/kafka-encryption/;publish=1</url>
         </repository>
         <snapshotRepository>
             <id>bintray-repo-public-kafka-encryption</id>
@@ -182,4 +182,22 @@
             </plugin-->
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>master-branch</id>
+            <activation>
+                <property>
+                    <name>jgitver.branch_name</name>
+                    <value>master</value>
+                </property>
+            </activation>
+            <distributionManagement>
+                <repository>
+                    <id>bintray-repo-public-kafka-encryption</id>
+                    <url>https://api.bintray.com/maven/quicksign/maven-public/kafka-encryption/;publish=1</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 </project>
