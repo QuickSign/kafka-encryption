@@ -12,3 +12,9 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
+      branch: master
+  - provider: script
+    script: "mvn -s .travis.settings.xml deploy"
+    skip_cleanup: true
+    on:
+      branch: develop
