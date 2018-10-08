@@ -38,6 +38,10 @@
             <id>bintray-repo-public-kafka-encryption</id>
             <url>https://api.bintray.com/maven/quicksign/maven-public/kafka-encryption/;publish=1</url>
         </repository>
+        <snapshotRepository>
+            <id>bintray-repo-public-kafka-encryption</id>
+            <url>https://api.bintray.com/maven/quicksign/maven-snapshots/kafka-encryption/;publish=1</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <dependencyManagement>

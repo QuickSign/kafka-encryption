@@ -7,7 +7,7 @@
     <servers>
         <server>
             <id>bintray-repo-public-kafka-encryption</id>
-            <username>cedricvidal</username>
+            <username>cedric-vidal</username>
             <password>${env.BINTRAY_KEY}</password>
         </server>
     </servers>
