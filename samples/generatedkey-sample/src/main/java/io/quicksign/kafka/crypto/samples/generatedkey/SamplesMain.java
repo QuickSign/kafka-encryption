@@ -64,11 +64,13 @@ public class SamplesMain {
                 .map(Optional::get)
                 .collect(Collectors.toSet());
 
+        // tag::masterkey[]
         MasterKeyEncryption masterKeyEncryption = new KeyStoreBasedMasterKey(
                 new File("/tmp/sample.pkcs12"),
                 "sample", "sample",
                 new AesGcmNoPaddingCryptoAlgorithm()
         );
+        // end::masterkey[]
 
 
         ExecutorService executorService = Executors.newFixedThreadPool(3);

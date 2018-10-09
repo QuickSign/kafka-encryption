@@ -46,8 +46,16 @@ public class SampleDecryptingConsumer implements Runnable {
 
     @Override
     public void run() {
-        Decryptor decryptor = new DefaultDecryptor(new PerRecordKeyProvider(masterKeyEncryption), new AesGcmNoPaddingCryptoAlgorithm());
 
+        // tag::consume[]
+        // The key is embedded in each message
+        PerRecordKeyProvider keyProvider = new PerRecordKeyProvider(masterKeyEncryption);
+
+        // The payload is encrypted using AES
+        AesGcmNoPaddingCryptoAlgorithm cryptoAlgorithm = new AesGcmNoPaddingCryptoAlgorithm();
+        Decryptor decryptor = new DefaultDecryptor(keyProvider, cryptoAlgorithm);
+
+        // Construct decrypting deserializer
         CryptoDeserializerFactory cryptoDeserializerFactory = new CryptoDeserializerFactory(decryptor);
 
         Properties consumerProperties = new Properties();
@@ -68,5 +76,6 @@ public class SampleDecryptingConsumer implements Runnable {
                 );
             }
         }
+        // end::consume[]
     }
 }
