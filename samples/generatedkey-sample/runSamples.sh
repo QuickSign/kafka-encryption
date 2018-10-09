@@ -12,4 +12,4 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License. See accompanying LICENSE file.
 
-java -jar target/kafka-encryption-generatedkey-sample-*-shaded.jar --producer --consumer --rawConsumer
+java -jar target/kafka-encryption-generatedkey-sample-*-shaded.jar

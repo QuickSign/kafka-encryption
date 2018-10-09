@@ -28,6 +28,7 @@ import io.quicksign.kafka.crypto.pairing.keyextractor.KeyReferenceExtractor;
  * @see KeyNameExtractor
  * @see KeyNameObfuscator
  */
+// TODO: change the name, it is repo agnostic.
 public class RepositoryBasedKeyReferenceExtractor implements KeyReferenceExtractor {
 
     private final KeyNameExtractor keyNameExtractor;
