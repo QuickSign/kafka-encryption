@@ -19,67 +19,66 @@
  */
 package io.quicksign.kafka.crypto.samples.generatedkey;
 
+import io.quicksign.kafka.crypto.encryption.KeyProvider;
+import io.quicksign.kafka.crypto.generatedkey.AES256CryptoKeyGenerator;
+import io.quicksign.kafka.crypto.generatedkey.MasterKeyEncryption;
+import io.quicksign.kafka.crypto.keyrepository.KeyRepository;
+import io.quicksign.kafka.crypto.keyrepository.RepositoryBasedKeyProvider;
+import io.quicksign.kafka.crypto.keyrepository.RepositoryBasedKeyReferenceExtractor;
+import io.quicksign.kafka.crypto.pairing.keyextractor.KeyReferenceExtractor;
+
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import io.quicksign.kafka.crypto.generatedkey.MasterKeyEncryption;
 
 public class SamplesMain {
 
-    private enum Modules {
-        PRODUCER("--producer", mk -> new SampleProducer(mk)),
-        CONSUMER("--consumer", mk -> new SampleDecryptingConsumer(mk)),
-        RAW_CONSUMER("--rawConsumer", mk -> new SampleRawConsumer());
 
-        private final String option;
-        private final Function<MasterKeyEncryption, Runnable> builder;
+    public static void main(String... args) {
 
-        Modules(String option, Function<MasterKeyEncryption, Runnable> builder){
-            this.option = option;
-            this.builder = builder;
-        }
-
-        public Function<MasterKeyEncryption, Runnable> getBuilder() {
-            return builder;
-        }
-
-        public static Optional<Modules> getByOption(String option){
-            return Arrays.stream(values()).filter(m -> m.option.equals(option)).findFirst();
-        }
-    }
-
-
-    public static void main(String...args){
-        Set<Modules> modules = Arrays.stream(args)
-                .map(Modules::getByOption)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .collect(Collectors.toSet());
+        // 1- Prepare the MasterEncryption Service that encrypt the encryption keys.
 
         // tag::masterkey[]
         MasterKeyEncryption masterKeyEncryption = new KeyStoreBasedMasterKey(
-                new File("/tmp/sample.pkcs12"),
-                "sample", "sample",
-                new AesGcmNoPaddingCryptoAlgorithm()
+            new File("/tmp/sample.pkcs12"),
+            "sample",
+            "sample",
+            new AesGcmNoPaddingCryptoAlgorithm()
         );
         // end::masterkey[]
 
 
+        // 2- Prepare the KeyProvider that provides the encryption keys.
+
+        // Use an AES256 key generator
+        AES256CryptoKeyGenerator cryptoKeyGenerator = new AES256CryptoKeyGenerator();
+
+        // In our sample, we generate an encryption keyref for each record key
+        // and 2 records with the same record key have the same encryption key ref
+        // this is not optimal... up to you to leverage info present in your key, topic name or simply current timestamp.
+        KeyReferenceExtractor keyReferenceExtractor = new RepositoryBasedKeyReferenceExtractor(new SampleKeyNameExtractor(), new SampleKeyNameObfuscator());
+
+        // Our sample key repository is a basic in memory repo
+        KeyRepository keyRepository = new SampleKeyRepository(masterKeyEncryption, cryptoKeyGenerator);
+
+        // The key provider wraps the key repo as it first needs to unobfuscate the keyref.
+        KeyProvider keyProvider = new RepositoryBasedKeyProvider(keyRepository, new SampleKeyNameObfuscator());
+
+        // The payload is encrypted using AES
+        AesGcmNoPaddingCryptoAlgorithm cryptoAlgorithm = new AesGcmNoPaddingCryptoAlgorithm();
+
+
+        // 3- start a producer and 2 consumer...
+
         ExecutorService executorService = Executors.newFixedThreadPool(3);
 
-        for (Modules activeModule: modules){
-            Runnable task = activeModule.getBuilder().apply(masterKeyEncryption);
-            executorService.submit(task);
-        }
+        // the producer encrypt the message
+        executorService.submit(new SampleProducer(keyProvider, keyReferenceExtractor, cryptoAlgorithm));
 
+        // this consumer reads them but don't decrypt them... so you can see that it can't be read by default
+        executorService.submit(new SampleRawConsumer());
 
+        // this consumer reads and decrypts... and dump in clear the payload...
+        executorService.submit(new SampleDecryptingConsumer(keyProvider, cryptoAlgorithm));
     }
 }

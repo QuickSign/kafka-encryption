@@ -19,63 +19,53 @@
  */
 package io.quicksign.kafka.crypto.samples.generatedkey;
 
-import java.util.Properties;
-
+import io.quicksign.kafka.crypto.Encryptor;
+import io.quicksign.kafka.crypto.encryption.CryptoAlgorithm;
+import io.quicksign.kafka.crypto.encryption.DefaultEncryptor;
+import io.quicksign.kafka.crypto.encryption.KeyProvider;
+import io.quicksign.kafka.crypto.pairing.keyextractor.KeyReferenceExtractor;
+import io.quicksign.kafka.crypto.pairing.serializer.CryptoSerializerPairFactory;
+import io.quicksign.kafka.crypto.pairing.serializer.SerializerPair;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
-import io.quicksign.kafka.crypto.Encryptor;
-import io.quicksign.kafka.crypto.encryption.DefaultEncryptor;
-import io.quicksign.kafka.crypto.generatedkey.AES256CryptoKeyGenerator;
-import io.quicksign.kafka.crypto.generatedkey.KeyPerRecordKeyReferenceExtractor;
-import io.quicksign.kafka.crypto.generatedkey.MasterKeyEncryption;
-import io.quicksign.kafka.crypto.generatedkey.PerRecordKeyProvider;
-import io.quicksign.kafka.crypto.pairing.serializer.CryptoSerializerPairFactory;
-import io.quicksign.kafka.crypto.pairing.serializer.SerializerPair;
+import java.util.Properties;
 
 public class SampleProducer implements Runnable {
 
-    private final MasterKeyEncryption masterKeyEncryption;
+    private final KeyProvider keyProvider;
+    private final KeyReferenceExtractor keyReferenceExtractor;
+    private final CryptoAlgorithm cryptoAlgorithm;
 
-    public SampleProducer(MasterKeyEncryption masterKeyEncryption) {
-        this.masterKeyEncryption = masterKeyEncryption;
+    public SampleProducer(KeyProvider keyProvider, KeyReferenceExtractor keyReferenceExtractor, CryptoAlgorithm cryptoAlgorithm) {
+        this.keyProvider = keyProvider;
+        this.keyReferenceExtractor = keyReferenceExtractor;
+        this.cryptoAlgorithm = cryptoAlgorithm;
     }
 
     @Override
     public void run() {
 
         // tag::produce[]
-        // Use an AES256 key generator
-        AES256CryptoKeyGenerator cryptoKeyGenerator = new AES256CryptoKeyGenerator();
 
-        // Generate a different key for each message and encrypt it using the master key
-        KeyPerRecordKeyReferenceExtractor keyReferenceExtractor = new KeyPerRecordKeyReferenceExtractor(
-                cryptoKeyGenerator, masterKeyEncryption);
-
-        // The key is embedded in each message
-        PerRecordKeyProvider keyProvider = new PerRecordKeyProvider(masterKeyEncryption);
-
-        // The payload is encrypted using AES
-        AesGcmNoPaddingCryptoAlgorithm cryptoAlgorithm = new AesGcmNoPaddingCryptoAlgorithm();
         Encryptor encryptor = new DefaultEncryptor(keyProvider, cryptoAlgorithm);
 
         // Wrap base LongSerializer and StringSerializer with encrypted wrappers
-        CryptoSerializerPairFactory cryptoSerializerPairFactory = new CryptoSerializerPairFactory(encryptor,
-                keyReferenceExtractor);
+        CryptoSerializerPairFactory cryptoSerializerPairFactory = new CryptoSerializerPairFactory(encryptor, keyReferenceExtractor);
         SerializerPair<Long, String> serializerPair = cryptoSerializerPairFactory.build(new LongSerializer(), new StringSerializer());
 
         Properties producerProperties = new Properties();
         producerProperties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 
-        try(KafkaProducer<Long, String> producer =
-                    new KafkaProducer<>(producerProperties, serializerPair.getKeySerializer(), serializerPair.getValueSerializer())){
+        try (KafkaProducer<Long, String> producer =
+                 new KafkaProducer<>(producerProperties, serializerPair.getKeySerializer(), serializerPair.getValueSerializer())) {
 
-            for(long i = 0L; i < Long.MAX_VALUE; i++){
-                producer.send(new ProducerRecord<>("sampletopic", i, "test number "+i));
-                if(i%10 ==9) {
+            for (long i = 0L; i < Long.MAX_VALUE; i++) {
+                producer.send(new ProducerRecord<>("sampletopic", i, "test number " + i));
+                if (i % 10 == 9) {
 
                     try {
                         Thread.sleep(1000L);
@@ -86,6 +76,5 @@ public class SampleProducer implements Runnable {
             }
         }
         // end::produce[]
-
     }
 }

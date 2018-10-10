@@ -19,16 +19,17 @@
  */
 package io.quicksign.kafka.crypto.samples.generatedkey;
 
+import io.quicksign.kafka.crypto.generatedkey.MasterKeyEncryption;
+
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.security.Key;
 import java.security.KeyStore;
 
-import io.quicksign.kafka.crypto.generatedkey.MasterKeyEncryption;
-
+/**
+ * A simple implementation that reads the master key (used to encrypt the symetric encryption keys) from a local keystore.
+ */
 public class KeyStoreBasedMasterKey implements MasterKeyEncryption {
 
     private final Key masterKey;

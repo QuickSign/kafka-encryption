@@ -39,7 +39,6 @@ public class SampleRawConsumer implements Runnable {
     public SampleRawConsumer() {
     }
 
-
     @Override
     public void run() {
 
