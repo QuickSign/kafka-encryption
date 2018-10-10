@@ -41,19 +41,30 @@ public class SampleProducer implements Runnable {
     private final MasterKeyEncryption masterKeyEncryption;
 
     public SampleProducer(MasterKeyEncryption masterKeyEncryption) {
-
         this.masterKeyEncryption = masterKeyEncryption;
     }
 
     @Override
     public void run() {
 
-        Encryptor encryptor = new DefaultEncryptor(new PerRecordKeyProvider(masterKeyEncryption), new AesGcmNoPaddingCryptoAlgorithm());
+        // tag::produce[]
+        // Use an AES256 key generator
+        AES256CryptoKeyGenerator cryptoKeyGenerator = new AES256CryptoKeyGenerator();
 
+        // Generate a different key for each message and encrypt it using the master key
+        KeyPerRecordKeyReferenceExtractor keyReferenceExtractor = new KeyPerRecordKeyReferenceExtractor(
+                cryptoKeyGenerator, masterKeyEncryption);
+
+        // The key is embedded in each message
+        PerRecordKeyProvider keyProvider = new PerRecordKeyProvider(masterKeyEncryption);
+
+        // The payload is encrypted using AES
+        AesGcmNoPaddingCryptoAlgorithm cryptoAlgorithm = new AesGcmNoPaddingCryptoAlgorithm();
+        Encryptor encryptor = new DefaultEncryptor(keyProvider, cryptoAlgorithm);
+
+        // Wrap base LongSerializer and StringSerializer with encrypted wrappers
         CryptoSerializerPairFactory cryptoSerializerPairFactory = new CryptoSerializerPairFactory(encryptor,
-                new KeyPerRecordKeyReferenceExtractor(new AES256CryptoKeyGenerator(), masterKeyEncryption));
-
-
+                keyReferenceExtractor);
         SerializerPair<Long, String> serializerPair = cryptoSerializerPairFactory.build(new LongSerializer(), new StringSerializer());
 
         Properties producerProperties = new Properties();
@@ -74,6 +85,7 @@ public class SampleProducer implements Runnable {
                 }
             }
         }
+        // end::produce[]
 
     }
 }

@@ -2,6 +2,20 @@
 
 v{project-version}
 
+## Motivation
+
+Personal data protection is becoming increasingly important for everyone these days. We chose no compromise, we encrypt
+everything end to end.
+
+Quicksign uses Kafka as the backbone of its microservices architecture, we therefore needed a solution
+to achieve end to end encryption in Kafka. Since it didn't appear to be available, we had to implement our own. We
+believe opening it to the community will help broaden best practices in terms of personal data protection and improve
+its security through a larger audience scrutiny.
+
+CAUTION: This library is the actual one used on our platform but some particular encryption and operational details
+are not revealed here and as such this library on its own doesn't reflect the overall mechanism used at Quicksign
+to protect our users data.
+
 ## Usage
 
 ### Import maven dependency
@@ -14,3 +28,15 @@ v{project-version}
     <version>{project-version}</version>
 </dependency>
 ....
+
+## Design goals
+
+* Support multiple encryption key management strategies (KMS, embedded, per message, rolling windows, per tenant, custom)
+* Support for Kafka Streams intermediate topics
+* Detect when a payload is not encrypted to skip decryption
+* Support for Camel
+* Support for Spring Boot
+
+## Use cases
+include::./samples/keyrepo-sample/index.adoc[]
+include::./samples/generatedkey-sample/index.adoc[]

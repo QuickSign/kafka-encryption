@@ -1,5 +1,3 @@
-#!/bin/bash
-
 #  Copyright 2018 Quicksign
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,4 +10,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License. See accompanying LICENSE file.
 
-java -jar target/kafka-encryption-generatedkey-sample-*-shaded.jar --producer --consumer --rawConsumer
+version: '3'
+
+services:
+  kafka:
+    image: landoop/fast-data-dev:cp4.0.0
+    network_mode: "host"

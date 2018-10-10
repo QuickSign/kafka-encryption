@@ -1,0 +1,42 @@
+### Embedded per message encryption key sample
+
+In this example, a different encryption key is generated for each message, encrypted using a master key and stored
+embedded with the payload.
+
+#### Running the sample
+
+[source,indent=0]
+....
+cd samples/kafka-encryption-generatedkey-sample
+docker-compose up # on windows and OSX, you need to adjust
+sh generateMasterKey.sh
+sh runSamples.sh
+....
+
+include::../../doc/running-docker-kafka.adoc[]
+
+#### Usage
+
+##### Producer side
+
+[source,java,indent=0]
+....
+include::./src/main/java/io/quicksign/kafka/crypto/samples/generatedkey/SamplesMain.java[tags=masterkey]
+....
+
+[source,java,indent=0]
+....
+include::./src/main/java/io/quicksign/kafka/crypto/samples/generatedkey/SampleProducer.java[tags=produce]
+....
+
+##### Consumer side
+
+[source,java,indent=0]
+....
+include::./src/main/java/io/quicksign/kafka/crypto/samples/generatedkey/SamplesMain.java[tags=masterkey]
+....
+
+[source,java,indent=0]
+....
+include::./src/main/java/io/quicksign/kafka/crypto/samples/generatedkey/SampleDecryptingConsumer.java[tags=consume]
+....

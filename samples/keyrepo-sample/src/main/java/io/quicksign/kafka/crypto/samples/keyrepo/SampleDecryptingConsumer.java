@@ -17,42 +17,39 @@
  * limitations under the License.
  * #L%
  */
-package io.quicksign.kafka.crypto.samples.generatedkey;
+package io.quicksign.kafka.crypto.samples.keyrepo;
 
-import java.util.Collections;
-import java.util.Properties;
-
+import io.quicksign.kafka.crypto.CryptoDeserializerFactory;
+import io.quicksign.kafka.crypto.Decryptor;
+import io.quicksign.kafka.crypto.encryption.CryptoAlgorithm;
+import io.quicksign.kafka.crypto.encryption.DefaultDecryptor;
+import io.quicksign.kafka.crypto.encryption.KeyProvider;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
-import io.quicksign.kafka.crypto.CryptoDeserializerFactory;
-import io.quicksign.kafka.crypto.Decryptor;
-import io.quicksign.kafka.crypto.encryption.DefaultDecryptor;
-import io.quicksign.kafka.crypto.generatedkey.MasterKeyEncryption;
-import io.quicksign.kafka.crypto.generatedkey.PerRecordKeyProvider;
+import java.util.Collections;
+import java.util.Properties;
 
 public class SampleDecryptingConsumer implements Runnable {
 
-    private final MasterKeyEncryption masterKeyEncryption;
+    private final KeyProvider keyProvider;
+    private final CryptoAlgorithm cryptoAlgorithm;
 
-    public SampleDecryptingConsumer(MasterKeyEncryption masterKeyEncryption) {
+    public SampleDecryptingConsumer(KeyProvider keyProvider, CryptoAlgorithm cryptoAlgorithm) {
+        this.keyProvider = keyProvider;
+        this.cryptoAlgorithm = cryptoAlgorithm;
 
-        this.masterKeyEncryption = masterKeyEncryption;
     }
-
 
     @Override
     public void run() {
 
         // tag::consume[]
         // The key is embedded in each message
-        PerRecordKeyProvider keyProvider = new PerRecordKeyProvider(masterKeyEncryption);
 
-        // The payload is encrypted using AES
-        AesGcmNoPaddingCryptoAlgorithm cryptoAlgorithm = new AesGcmNoPaddingCryptoAlgorithm();
         Decryptor decryptor = new DefaultDecryptor(keyProvider, cryptoAlgorithm);
 
         // Construct decrypting deserializer
@@ -64,15 +61,18 @@ public class SampleDecryptingConsumer implements Runnable {
         consumerProperties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
         try (KafkaConsumer<Long, String> consumer = new KafkaConsumer<Long, String>(
-                consumerProperties,
-                new LongDeserializer(),
-                cryptoDeserializerFactory.buildFrom(new StringDeserializer()))) {
+            consumerProperties,
+            new LongDeserializer(),
+            cryptoDeserializerFactory.buildFrom(new StringDeserializer()))) {
 
             consumer.subscribe(Collections.singleton("sampletopic"));
-            for(; true;){
+            for (; true; ) {
                 ConsumerRecords<Long, String> records = consumer.poll(1000L);
                 records.forEach(
-                        record -> System.out.println("decrypted record: key="+record.key()+", offset="+record.offset()+", value="+record.value())
+                    record -> System.out.println(
+                                "-------------------------------------------------------------\n" +
+                                "decrypted record: key=" + record.key() + ", offset=" + record.offset() + ", value=" + record.value() +
+                                "\n-------------------------------------------------------------\n\n")
                 );
             }
         }

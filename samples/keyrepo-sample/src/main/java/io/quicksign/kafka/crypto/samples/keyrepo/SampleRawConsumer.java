@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.quicksign.kafka.crypto.samples.generatedkey;
+package io.quicksign.kafka.crypto.samples.keyrepo;
 
 import java.util.Collections;
 import java.util.Properties;
@@ -28,54 +28,34 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
-import io.quicksign.kafka.crypto.CryptoDeserializerFactory;
-import io.quicksign.kafka.crypto.Decryptor;
-import io.quicksign.kafka.crypto.encryption.DefaultDecryptor;
-import io.quicksign.kafka.crypto.generatedkey.MasterKeyEncryption;
-import io.quicksign.kafka.crypto.generatedkey.PerRecordKeyProvider;
+public class SampleRawConsumer implements Runnable {
 
-public class SampleDecryptingConsumer implements Runnable {
-
-    private final MasterKeyEncryption masterKeyEncryption;
-
-    public SampleDecryptingConsumer(MasterKeyEncryption masterKeyEncryption) {
-
-        this.masterKeyEncryption = masterKeyEncryption;
+    public SampleRawConsumer() {
     }
-
 
     @Override
     public void run() {
 
-        // tag::consume[]
-        // The key is embedded in each message
-        PerRecordKeyProvider keyProvider = new PerRecordKeyProvider(masterKeyEncryption);
-
-        // The payload is encrypted using AES
-        AesGcmNoPaddingCryptoAlgorithm cryptoAlgorithm = new AesGcmNoPaddingCryptoAlgorithm();
-        Decryptor decryptor = new DefaultDecryptor(keyProvider, cryptoAlgorithm);
-
-        // Construct decrypting deserializer
-        CryptoDeserializerFactory cryptoDeserializerFactory = new CryptoDeserializerFactory(decryptor);
-
         Properties consumerProperties = new Properties();
         consumerProperties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        consumerProperties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "samplecrypted");
+        consumerProperties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "sampleraw");
         consumerProperties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
         try (KafkaConsumer<Long, String> consumer = new KafkaConsumer<Long, String>(
                 consumerProperties,
                 new LongDeserializer(),
-                cryptoDeserializerFactory.buildFrom(new StringDeserializer()))) {
+                new StringDeserializer())) {
 
             consumer.subscribe(Collections.singleton("sampletopic"));
             for(; true;){
                 ConsumerRecords<Long, String> records = consumer.poll(1000L);
                 records.forEach(
-                        record -> System.out.println("decrypted record: key="+record.key()+", offset="+record.offset()+", value="+record.value())
+                        record -> System.out.println(
+                            "-------------------------------------------------------------\n" +
+                            "raw record: key="+record.key()+", offset="+record.offset()+", value="+record.value() +
+                            "\n-------------------------------------------------------------\n\n")
                 );
             }
         }
-        // end::consume[]
     }
 }
