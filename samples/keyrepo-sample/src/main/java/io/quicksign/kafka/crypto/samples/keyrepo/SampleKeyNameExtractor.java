@@ -22,12 +22,15 @@ package io.quicksign.kafka.crypto.samples.keyrepo;
 import io.quicksign.kafka.crypto.keyrepository.KeyNameExtractor;
 
 
-public class SampleKeyNameExtractor implements KeyNameExtractor{
+/**
+ * Simple key name extractor that use the recordKey as the key name.
+ * More complex implementation could leverage the key hidden structure
+ * or take into account the current time.
+ */
+public class SampleKeyNameExtractor implements KeyNameExtractor {
 
     @Override
     public String extractKeyName(String topic, Object recordKey) {
-
-        // simply using the recordKey as the key name.
         return recordKey.toString();
     }
 }

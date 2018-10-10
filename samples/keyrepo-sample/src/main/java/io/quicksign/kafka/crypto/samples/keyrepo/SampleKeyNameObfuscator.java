@@ -25,6 +25,10 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 
 
+/**
+ * In the payload we store the encryption key reference which is simply an obfuscated version fo the keyName.
+ * This simple implementation creates the encryption key reference by swapping 2 bytes from the encryption key name.
+ */
 public class SampleKeyNameObfuscator implements KeyNameObfuscator {
     @Override
     public byte[] obfuscate(String keyName) {
@@ -37,7 +41,6 @@ public class SampleKeyNameObfuscator implements KeyNameObfuscator {
         return new String(swapFirstAndLast(copy), Charset.forName("UTF-8"));
     }
 
-    // basic, just for the sample
     private byte[] swapFirstAndLast(byte[] keyRef) {
         byte[] copy = Arrays.copyOf(keyRef, keyRef.length);
         byte first = copy[0];
