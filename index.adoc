@@ -38,4 +38,5 @@ to protect our users data.
 * Support for Spring Boot
 
 ## Use cases
+include::./samples/keyrepo-sample/index.adoc[]
 include::./samples/generatedkey-sample/index.adoc[]
