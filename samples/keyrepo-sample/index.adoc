@@ -6,7 +6,6 @@ same encryption key reference. The key repository in this example is a simple in
 key vault such as Google Cloud KMS or Hashicorp Vault in a real world example. The encryption keys are stored
 encrypted (by a master key).
 
-
 #### Running the sample
 
 [source,indent=0]
