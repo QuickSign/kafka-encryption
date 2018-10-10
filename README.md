@@ -1,5 +1,6 @@
 # kafka-encryption
-Kafka End to End Encryption
+
+Kafka End to End Encryption.
 
 ## Documentation
 
