@@ -37,6 +37,7 @@
 
     <modules>
         <module>generatedkey-sample</module>
+        <module>keyrepo-sample</module>
     </modules>
 
 </project>
