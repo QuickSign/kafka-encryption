@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -67,10 +67,9 @@ public class CryptoSerializer<T> implements ExtendedSerializer<T> {
     private final ThreadLocal<byte[]> keyRefHolder;
 
     /**
-     *
      * @param rawSerializer Serializer to serialize data before encryption
-     * @param encryptor {@link Encryptor} to encrypt data
-     * @param keyRefHolder {@link ThreadLocal} used to communicate the key reference when using Kafka Stream (unused for regular Kafka Producer)
+     * @param encryptor     {@link Encryptor} to encrypt data
+     * @param keyRefHolder  {@link ThreadLocal} used to communicate the key reference when using Kafka Stream (unused for regular Kafka Producer)
      */
     public CryptoSerializer(ExtendedSerializer<? super T> rawSerializer, Encryptor encryptor, ThreadLocal<byte[]> keyRefHolder) {
         this.rawSerializer = rawSerializer;

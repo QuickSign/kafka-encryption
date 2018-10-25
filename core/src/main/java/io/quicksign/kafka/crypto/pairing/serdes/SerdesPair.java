@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,6 +28,7 @@ import org.apache.kafka.streams.processor.StateStore;
 
 /**
  * Represent paired keySerde and valueSerde
+ *
  * @param <K>
  * @param <V>
  */
@@ -52,6 +53,7 @@ public class SerdesPair<K, V> {
 
     /**
      * Build a {@link Serialized} using the keySerde and valueSerde of the pair
+     *
      * @return
      */
     public Serialized<K, V> toSerialized() {
@@ -60,6 +62,7 @@ public class SerdesPair<K, V> {
 
     /**
      * Build a {@link Produced} using the keySerde and valueSerde of the pair
+     *
      * @return
      */
     public Produced<K, V> toProduced() {
@@ -68,6 +71,7 @@ public class SerdesPair<K, V> {
 
     /**
      * Build a {@link Consumed} using the keySerde and valueSerde of the pair
+     *
      * @return
      */
     public Consumed<K, V> toConsumed() {

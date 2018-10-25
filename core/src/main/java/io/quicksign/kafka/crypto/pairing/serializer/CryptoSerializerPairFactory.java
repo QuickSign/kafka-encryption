@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,8 +30,8 @@ import io.quicksign.kafka.crypto.pairing.keyextractor.KeyReferenceExtractor;
 /**
  * A factory to pair 2 serializers
  * <ul>
- *     <li>the keySerializer is wrapped to call the {@link KeyReferenceExtractor}</li>
- *     <li> the valueSerializer is wrapped into a {@link CryptoSerializer} </li>
+ * <li>the keySerializer is wrapped to call the {@link KeyReferenceExtractor}</li>
+ * <li> the valueSerializer is wrapped into a {@link CryptoSerializer} </li>
  * </ul>
  * The keyref extracted by the wrapped key serializer will be shared with the wrapped value serializer using Kafka headers
  */
