@@ -40,3 +40,4 @@ to protect our users data.
 ## Use cases
 include::./samples/keyrepo-sample/index.adoc[]
 include::./samples/generatedkey-sample/index.adoc[]
+include::./samples/kafkastream-with-keyrepo-sample/index.adoc[]
