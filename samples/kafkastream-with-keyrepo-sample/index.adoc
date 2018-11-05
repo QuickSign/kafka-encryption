@@ -35,7 +35,7 @@ include::./src/main/java/io/quicksign/kafka/crypto/samples/stream/keyrepo/Sample
 
 ##### Producer side
 
-
+.SampleProducer.java
 [source,java,indent=0]
 ....
 include::./src/main/java/io/quicksign/kafka/crypto/samples/stream/keyrepo/SampleProducer.java[tags=produce]
@@ -43,6 +43,7 @@ include::./src/main/java/io/quicksign/kafka/crypto/samples/stream/keyrepo/Sample
 
 ##### Stream side
 
+.SampleStream.java
 [source,java,indent=0]
 ....
 include::./src/main/java/io/quicksign/kafka/crypto/samples/stream/keyrepo/SampleStream.java[tags=stream]
@@ -51,6 +52,7 @@ include::./src/main/java/io/quicksign/kafka/crypto/samples/stream/keyrepo/Sample
 
 and display
 
+.SampleStream.java
 [source,java,indent=0]
 ....
 include::./src/main/java/io/quicksign/kafka/crypto/samples/stream/keyrepo/SampleStream.java[tags=display]
