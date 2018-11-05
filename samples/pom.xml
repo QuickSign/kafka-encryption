@@ -38,6 +38,7 @@
     <modules>
         <module>generatedkey-sample</module>
         <module>keyrepo-sample</module>
+        <module>kafkastream-with-keyrepo-sample</module>
     </modules>
 
 </project>

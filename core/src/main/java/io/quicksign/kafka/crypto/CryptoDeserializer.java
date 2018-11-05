@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -53,7 +53,6 @@ import io.quicksign.kafka.crypto.utils.ArrayUtils;
  * </p>
  *
  * @param <T>
- *
  * @see CryptoSerializer
  * @see Decryptor
  */
@@ -65,9 +64,8 @@ public class CryptoDeserializer<T> implements ExtendedDeserializer<T> {
     private final Decryptor decryptor;
 
     /**
-     *
      * @param rawDeserializer deserializer to deserialize clear data
-     * @param decryptor Decryptor used to decrypt the data
+     * @param decryptor       Decryptor used to decrypt the data
      */
     public CryptoDeserializer(ExtendedDeserializer<? extends T> rawDeserializer, Decryptor decryptor) {
 
@@ -113,11 +111,10 @@ public class CryptoDeserializer<T> implements ExtendedDeserializer<T> {
      *  deserialize(topic, new RecordHeaders(), data);
      * }</pre>
      *
-     * @see #deserialize(String, Headers, byte[])
-     *
      * @param topic
      * @param data
      * @return
+     * @see #deserialize(String, Headers, byte[])
      */
     @Override
     public T deserialize(String topic, byte[] data) {

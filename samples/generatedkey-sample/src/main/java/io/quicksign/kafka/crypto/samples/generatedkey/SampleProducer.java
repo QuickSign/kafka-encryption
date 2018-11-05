@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -70,16 +70,17 @@ public class SampleProducer implements Runnable {
         Properties producerProperties = new Properties();
         producerProperties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 
-        try(KafkaProducer<Long, String> producer =
-                    new KafkaProducer<>(producerProperties, serializerPair.getKeySerializer(), serializerPair.getValueSerializer())){
+        try (KafkaProducer<Long, String> producer =
+                     new KafkaProducer<>(producerProperties, serializerPair.getKeySerializer(), serializerPair.getValueSerializer())) {
 
-            for(long i = 0L; i < Long.MAX_VALUE; i++){
-                producer.send(new ProducerRecord<>("sampletopic", i, "test number "+i));
-                if(i%10 ==9) {
+            for (long i = 0L; i < Long.MAX_VALUE; i++) {
+                producer.send(new ProducerRecord<>("sampletopic", i, "test number " + i));
+                if (i % 10 == 9) {
 
                     try {
                         Thread.sleep(1000L);
-                    } catch (InterruptedException e) {
+                    }
+                    catch (InterruptedException e) {
                         return;
                     }
                 }

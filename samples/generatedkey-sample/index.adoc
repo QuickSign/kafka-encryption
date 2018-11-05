@@ -1,4 +1,4 @@
-### Embedded per message encryption key sample
+### Embedded per message encryption key sample (Consumer API)
 
 In this example, a different encryption key is generated for each message, encrypted using a master key and stored
 embedded with the payload.

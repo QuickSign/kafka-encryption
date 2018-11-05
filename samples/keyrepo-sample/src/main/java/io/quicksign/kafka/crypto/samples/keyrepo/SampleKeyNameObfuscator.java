@@ -19,10 +19,10 @@
  */
 package io.quicksign.kafka.crypto.samples.keyrepo;
 
-import io.quicksign.kafka.crypto.keyrepository.KeyNameObfuscator;
-
 import java.nio.charset.Charset;
 import java.util.Arrays;
+
+import io.quicksign.kafka.crypto.keyrepository.KeyNameObfuscator;
 
 
 /**
