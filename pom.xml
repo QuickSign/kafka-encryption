@@ -25,6 +25,15 @@
     <name>kafka-encryption-parent</name>
     <description>End to end encryption for Kafka</description>
 
+    <url>https://github.com/Quicksign/kafka-encryption</url>
+    <developers>
+        <developer>
+            <name>Julien Vaudour</name>
+            <organization>Quicksign</organization>
+            <email>julien.vaudour@quicksign.com</email>
+        </developer>
+    </developers>
+
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
