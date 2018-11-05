@@ -85,7 +85,7 @@ public class SampleStream implements Runnable {
             SerdesPair<Integer, String> serdesPair = cryptoSerdeFactory.buildSerdesPair(Serdes.Integer(), Serdes.String());
 
             streamsBuilder.stream("operations", serdesPair.toConsumed())
-                    .filter((i, s) -> s != null)
+                    .filter((i, s) -> s != null) // messages that were not decrypted (because key not in repository) are null
                     .groupByKey()
                     .reduce((s1, s2) -> "" + (Integer.valueOf(s1) + Integer.valueOf(s2)),
                             serdesPair.applyTo(Materialized.as(storeSupplier)));
