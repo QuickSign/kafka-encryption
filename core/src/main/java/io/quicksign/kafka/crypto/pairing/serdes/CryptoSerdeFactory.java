@@ -19,8 +19,6 @@
  */
 package io.quicksign.kafka.crypto.pairing.serdes;
 
-import org.apache.kafka.common.serialization.ExtendedDeserializer;
-import org.apache.kafka.common.serialization.ExtendedSerializer;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 
@@ -65,11 +63,8 @@ public class CryptoSerdeFactory implements SerdeFactory {
     }
 
     private <T> Serde<T> buildFrom(Serde<T> rawSerde, ThreadLocal<byte[]> keyRefHolder) {
-        ExtendedDeserializer<T> rawExtendedDeserializer = ExtendedDeserializer.Wrapper.ensureExtended(rawSerde.deserializer());
-        ExtendedSerializer<T> rawExtendedSerializer = ExtendedSerializer.Wrapper.ensureExtended(rawSerde.serializer());
-
-        return Serdes.serdeFrom(new CryptoSerializer<>(rawExtendedSerializer, encryptor, keyRefHolder),
-                new CryptoDeserializer<>(rawExtendedDeserializer, decryptor));
+        return Serdes.serdeFrom(new CryptoSerializer<>(rawSerde.serializer(), encryptor, keyRefHolder),
+                new CryptoDeserializer<>(rawSerde.deserializer(), decryptor));
     }
 
     /**

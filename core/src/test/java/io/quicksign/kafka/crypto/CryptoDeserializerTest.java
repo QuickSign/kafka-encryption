@@ -28,7 +28,7 @@ import java.nio.charset.StandardCharsets;
 
 import org.apache.kafka.common.header.Headers;
 import org.apache.kafka.common.header.internals.RecordHeaders;
-import org.apache.kafka.common.serialization.ExtendedDeserializer;
+import org.apache.kafka.common.serialization.Deserializer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -42,7 +42,7 @@ public class CryptoDeserializerTest {
     Decryptor decryptor;
 
     @Mock
-    ExtendedDeserializer<String> rawDeserializer;
+    Deserializer<String> rawDeserializer;
 
     @InjectMocks
     CryptoDeserializer<String> cryptoDeserializer;

@@ -19,7 +19,6 @@
  */
 package io.quicksign.kafka.crypto;
 
-import org.apache.kafka.common.serialization.ExtendedSerializer;
 import org.apache.kafka.common.serialization.Serializer;
 
 public class CryptoSerializerFactory {
@@ -32,6 +31,6 @@ public class CryptoSerializerFactory {
     }
 
     public <T> CryptoSerializer<T> buildFrom(Serializer<T> rawSerializer) {
-        return new CryptoSerializer<>(ExtendedSerializer.Wrapper.ensureExtended(rawSerializer), encryptor, null);
+        return new CryptoSerializer<>(rawSerializer, encryptor, null);
     }
 }

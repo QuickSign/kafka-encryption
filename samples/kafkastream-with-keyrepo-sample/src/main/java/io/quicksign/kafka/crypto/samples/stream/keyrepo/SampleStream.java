@@ -19,8 +19,7 @@
  */
 package io.quicksign.kafka.crypto.samples.stream.keyrepo;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Properties;
 
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
@@ -72,12 +71,11 @@ public class SampleStream implements Runnable {
             KeyValueBytesStoreSupplier storeSupplier = Stores.inMemoryKeyValueStore(name + "_balance");
 
 
-            Map<String, Object> props = new HashMap<>();
-            props.put(StreamsConfig.APPLICATION_ID_CONFIG, name);
-            props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-            props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
-            props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
-            StreamsConfig config = new StreamsConfig(props);
+            Properties props = new Properties();
+            props.setProperty(StreamsConfig.APPLICATION_ID_CONFIG, name);
+            props.setProperty(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+            props.setProperty(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+            props.setProperty(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
 
 
             StreamsBuilder streamsBuilder = new StreamsBuilder();
@@ -90,7 +88,7 @@ public class SampleStream implements Runnable {
                     .reduce((s1, s2) -> "" + (Integer.valueOf(s1) + Integer.valueOf(s2)),
                             serdesPair.applyTo(Materialized.as(storeSupplier)));
 
-            KafkaStreams kafkaStreams = new KafkaStreams(streamsBuilder.build(), config);
+            KafkaStreams kafkaStreams = new KafkaStreams(streamsBuilder.build(), props);
             kafkaStreams.start();
 
             // end::stream[]
