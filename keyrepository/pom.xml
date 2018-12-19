@@ -29,12 +29,6 @@
     <name>kafka-encryption-keyrepository</name>
     <description>Kafka Record Encryption - key repository</description>
 
-    <properties>
-        <java.version>1.8</java.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-
     <dependencies>
 
         <dependency>

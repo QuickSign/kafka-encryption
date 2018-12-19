@@ -29,7 +29,7 @@
  * and put in the context the cryptographic key reference, that will be used to encrypt the record value.</p>
  *
  * <p>This based on the fact that {@link org.apache.kafka.clients.producer.KafkaProducer#doSend(org.apache.kafka.clients.producer.ProducerRecord, org.apache.kafka.clients.producer.Callback) KafkaProducer}
- * and {@link org.apache.kafka.streams.processor.internals.RecordCollectorImpl#send(java.lang.String, java.lang.Object, java.lang.Object, java.lang.Integer, java.lang.Long, org.apache.kafka.common.serialization.Serializer, org.apache.kafka.common.serialization.Serializer) RecordCollector}
+ * and {@link org.apache.kafka.streams.processor.internals.RecordCollectorImpl#send(java.lang.String, java.lang.Object, java.lang.Object, org.apache.kafka.common.header.Headers, java.lang.Integer, java.lang.Long, org.apache.kafka.common.serialization.Serializer, org.apache.kafka.common.serialization.Serializer)  RecordCollector}
  * (for streams)
  * call key serialization before value serialization.
  * </p>

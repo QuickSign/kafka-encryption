@@ -29,7 +29,6 @@ import java.util.Properties;
 import org.apache.kafka.common.header.Headers;
 import org.apache.kafka.common.header.internals.RecordHeaders;
 import org.apache.kafka.common.serialization.Deserializer;
-import org.apache.kafka.common.serialization.ExtendedDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,18 +55,18 @@ import io.quicksign.kafka.crypto.utils.ArrayUtils;
  * @see CryptoSerializer
  * @see Decryptor
  */
-public class CryptoDeserializer<T> implements ExtendedDeserializer<T> {
+public class CryptoDeserializer<T> implements Deserializer<T> {
 
     private static final Logger log = LoggerFactory.getLogger(CryptoDeserializer.class);
 
-    private final ExtendedDeserializer<? extends T> rawDeserializer;
+    private final Deserializer<? extends T> rawDeserializer;
     private final Decryptor decryptor;
 
     /**
      * @param rawDeserializer deserializer to deserialize clear data
      * @param decryptor       Decryptor used to decrypt the data
      */
-    public CryptoDeserializer(ExtendedDeserializer<? extends T> rawDeserializer, Decryptor decryptor) {
+    public CryptoDeserializer(Deserializer<? extends T> rawDeserializer, Decryptor decryptor) {
 
         this.rawDeserializer = rawDeserializer;
         this.decryptor = decryptor;

@@ -19,7 +19,6 @@
  */
 package io.quicksign.kafka.crypto.pairing.serializer;
 
-import org.apache.kafka.common.serialization.ExtendedSerializer;
 import org.apache.kafka.common.serialization.Serializer;
 
 import io.quicksign.kafka.crypto.CryptoSerializer;
@@ -51,7 +50,7 @@ public class CryptoSerializerPairFactory implements SerializerPairFactory {
     @Override
     public <K, V> SerializerPair<K, V> build(Serializer<K> keySerializer, Serializer<V> valueSerializer) {
         Serializer<K> newKeySerializer = new CryptoAwareSerializerWrapper<K>(keySerializer, keyReferenceExtractor, null);
-        Serializer<V> newvalueSerializer = new CryptoSerializer<>(ExtendedSerializer.Wrapper.ensureExtended(valueSerializer), encryptor, null);
+        Serializer<V> newvalueSerializer = new CryptoSerializer<>(valueSerializer, encryptor, null);
         return new SerializerPair<>(newKeySerializer, newvalueSerializer);
     }
 }

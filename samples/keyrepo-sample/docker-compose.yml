@@ -14,5 +14,5 @@ version: '3'
 
 services:
   kafka:
-    image: landoop/fast-data-dev:cp4.0.0
+    image: landoop/fast-data-dev:2.0.1
     network_mode: "host"
