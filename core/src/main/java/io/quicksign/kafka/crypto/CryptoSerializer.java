@@ -28,7 +28,6 @@ import java.util.Properties;
 
 import org.apache.kafka.common.header.Header;
 import org.apache.kafka.common.header.Headers;
-import org.apache.kafka.common.serialization.ExtendedSerializer;
 import org.apache.kafka.common.serialization.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,12 +56,12 @@ import org.slf4j.LoggerFactory;
  *
  * @param <T>
  */
-public class CryptoSerializer<T> implements ExtendedSerializer<T> {
+public class CryptoSerializer<T> implements Serializer<T> {
 
     private static final Logger log = LoggerFactory.getLogger(CryptoSerializer.class);
 
 
-    private final ExtendedSerializer<? super T> rawSerializer;
+    private final Serializer<? super T> rawSerializer;
     private final Encryptor encryptor;
     private final ThreadLocal<byte[]> keyRefHolder;
 
@@ -71,7 +70,7 @@ public class CryptoSerializer<T> implements ExtendedSerializer<T> {
      * @param encryptor     {@link Encryptor} to encrypt data
      * @param keyRefHolder  {@link ThreadLocal} used to communicate the key reference when using Kafka Stream (unused for regular Kafka Producer)
      */
-    public CryptoSerializer(ExtendedSerializer<? super T> rawSerializer, Encryptor encryptor, ThreadLocal<byte[]> keyRefHolder) {
+    public CryptoSerializer(Serializer<? super T> rawSerializer, Encryptor encryptor, ThreadLocal<byte[]> keyRefHolder) {
         this.rawSerializer = rawSerializer;
         this.encryptor = encryptor;
         this.keyRefHolder = keyRefHolder;

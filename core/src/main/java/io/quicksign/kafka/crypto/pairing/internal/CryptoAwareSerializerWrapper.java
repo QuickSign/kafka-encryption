@@ -22,7 +22,6 @@ package io.quicksign.kafka.crypto.pairing.internal;
 import java.util.Map;
 
 import org.apache.kafka.common.header.Headers;
-import org.apache.kafka.common.serialization.ExtendedSerializer;
 import org.apache.kafka.common.serialization.Serializer;
 
 import io.quicksign.kafka.crypto.KafkaCryptoConstants;
@@ -34,9 +33,9 @@ import io.quicksign.kafka.crypto.pairing.keyextractor.KeyReferenceExtractor;
  *
  * @param <T>
  */
-public class CryptoAwareSerializerWrapper<T> implements ExtendedSerializer<T> {
+public class CryptoAwareSerializerWrapper<T> implements Serializer<T> {
 
-    private final ExtendedSerializer<T> rawSerializer;
+    private final Serializer<T> rawSerializer;
     private final KeyReferenceExtractor keyReferenceExtractor;
     private final ThreadLocal<byte[]> keyRefHolder;
 
@@ -46,7 +45,7 @@ public class CryptoAwareSerializerWrapper<T> implements ExtendedSerializer<T> {
      * @param keyRefHolder          the ThreadLocal to share the keyref (only used in the context of a Kafka Stream)
      */
     public CryptoAwareSerializerWrapper(Serializer<T> rawSerializer, KeyReferenceExtractor keyReferenceExtractor, ThreadLocal<byte[]> keyRefHolder) {
-        this.rawSerializer = ExtendedSerializer.Wrapper.ensureExtended(rawSerializer);
+        this.rawSerializer = rawSerializer;
         this.keyReferenceExtractor = keyReferenceExtractor;
         this.keyRefHolder = keyRefHolder;
     }

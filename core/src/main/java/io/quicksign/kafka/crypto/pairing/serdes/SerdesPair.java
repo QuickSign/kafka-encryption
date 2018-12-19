@@ -20,7 +20,8 @@
 package io.quicksign.kafka.crypto.pairing.serdes;
 
 import org.apache.kafka.common.serialization.Serde;
-import org.apache.kafka.streams.Consumed;
+import org.apache.kafka.streams.kstream.Consumed;
+import org.apache.kafka.streams.kstream.Grouped;
 import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.kstream.Produced;
 import org.apache.kafka.streams.kstream.Serialized;
@@ -58,6 +59,13 @@ public class SerdesPair<K, V> {
      */
     public Serialized<K, V> toSerialized() {
         return Serialized.with(keySerde, valueSerde);
+    }
+
+    /**
+     * Build a {@link Grouped} using the keySerde and valueSerde of the pair
+     */
+    public Grouped<K, V> toGrouped() {
+        return Grouped.with(keySerde, valueSerde);
     }
 
     /**

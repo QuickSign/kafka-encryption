@@ -20,7 +20,6 @@
 package io.quicksign.kafka.crypto;
 
 import org.apache.kafka.common.serialization.Deserializer;
-import org.apache.kafka.common.serialization.ExtendedDeserializer;
 
 public class CryptoDeserializerFactory {
 
@@ -32,6 +31,6 @@ public class CryptoDeserializerFactory {
     }
 
     public <T> CryptoDeserializer<T> buildFrom(Deserializer<T> rawDeserializer) {
-        return new CryptoDeserializer<>(ExtendedDeserializer.Wrapper.ensureExtended(rawDeserializer), decryptor);
+        return new CryptoDeserializer<>(rawDeserializer, decryptor);
     }
 }

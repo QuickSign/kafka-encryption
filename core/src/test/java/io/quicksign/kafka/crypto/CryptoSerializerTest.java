@@ -29,7 +29,7 @@ import java.nio.charset.StandardCharsets;
 
 import org.apache.kafka.common.header.Headers;
 import org.apache.kafka.common.header.internals.RecordHeaders;
-import org.apache.kafka.common.serialization.ExtendedSerializer;
+import org.apache.kafka.common.serialization.Serializer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -40,7 +40,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class CryptoSerializerTest {
 
     @Mock
-    ExtendedSerializer<String> rawSerializer;
+    Serializer<String> rawSerializer;
 
     @Mock
     Encryptor encryptor;
