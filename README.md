@@ -6,9 +6,10 @@ Kafka-encryption is a Java framework that allows you to enable encryption/decryp
 record's value at the serializer/deserializer level. This way your data can only be read by your
 consumers.
 
-    CAUTION: This library is the actual one used on our platform but some particular encryption and operational details
-    are not revealed here and as such this framework on its own doesn't reflect the overall mechanism used at Quicksign
-    to protect our users data. However we provide some pretty descent working examples that you can leverage.
+    CAUTION: This library is the actual one used on our platform but some particular 
+    encryption and operational details are not revealed here and as such this framework 
+    on its own doesn't reflect the overall mechanism used at Quicksign to protect our 
+    users data. However we provide some pretty decent working examples that you can leverage.
 
 ## Design goals
 
