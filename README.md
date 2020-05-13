@@ -1,7 +1,10 @@
 # kafka-encryption
 
-Kafka-encryption framework allows you to enable encryption/decryption of Kafka 
-record's value at the serializer/deserializer level.
+[![Build Status](https://travis-ci.com/QuickSign/kafka-encryption.svg?branch=master)](https://travis-ci.com/QuickSign/kafka-encryption)
+
+Kafka-encryption is a Java framework that allows you to enable encryption/decryption of Kafka 
+record's value at the serializer/deserializer level. This way your data can only be read by your
+consumers.
 
     CAUTION: This library is the actual one used on our platform but some particular encryption and operational details
     are not revealed here and as such this framework on its own doesn't reflect the overall mechanism used at Quicksign
@@ -37,19 +40,6 @@ Hopefully you can replace some of the sample implementations provided in the exa
 These implementations customize the crypto Serializer/Deserializer internals. 
 
 When studying the samples' code, to ease your pain start by studying the SamplesMain and SampleProducer.
-
-### Prerequisites 
-
-You need to have a running Kafka in order to run the examples, you may use this command to run Kafka:
-
-*On OSX and Windows*
-
-    docker run --rm -p 2181:2181 -p 3030:3030 -p 8081-8083:8081-8083 -p 9581-9585:9581-9585 -p 9092:9092 -e ADV_HOST=192.168.99.100 landoop/fast-data-dev:2.0.1
-
-*On linux*
-
-    docker run --rm --net=host -e ADV_HOST=localhost landoop/fast-data-dev:2.0.1
-
 
 ### 1) samples/generatedkey-sample : one encryption key per record
 
@@ -123,3 +113,15 @@ __Deserializer__
 * Uses the SampleKeyNameObfuscator to obtain the `key name` out of the `key ref`
 * Looks up the `encryption key` from the SampleKeyRepository using the `key name`   
 * Decrypts the record's value using the `encryption key` (see AesGcmNoPaddingCryptoAlgorithm)
+
+### Troubleshooting
+
+In case the docker compose provided in the examples to run Kafka does not work for you, you may use this command:
+
+*On OSX and Windows*
+
+    docker run --rm -p 2181:2181 -p 3030:3030 -p 8081-8083:8081-8083 -p 9581-9585:9581-9585 -p 9092:9092 -e ADV_HOST=192.168.99.100 landoop/fast-data-dev:2.0.1
+
+*On linux*
+
+    docker run --rm --net=host -e ADV_HOST=localhost landoop/fast-data-dev:2.0.1
