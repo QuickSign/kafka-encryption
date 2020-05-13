@@ -28,6 +28,8 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
+// This consumer does not decrypt the messages... it is here to show you that the data
+// is encrypted...
 public class SampleRawConsumer implements Runnable {
 
     public SampleRawConsumer() {
@@ -51,7 +53,11 @@ public class SampleRawConsumer implements Runnable {
             for (; true; ) {
                 ConsumerRecords<Long, String> records = consumer.poll(1000L);
                 records.forEach(
-                        record -> System.out.println("raw record: key=" + record.key() + ", offset=" + record.offset() + ", value=" + record.value())
+                        record -> System.out.println(
+                            "-------------------------------------------------------------\n" +
+                            "raw record: key=" + record.key() + ", offset=" + record.offset() + ", value=" + record.value() +
+                            "\n-------------------------------------------------------------\n\n"
+                        )
                 );
             }
         }

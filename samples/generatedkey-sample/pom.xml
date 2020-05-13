@@ -17,60 +17,34 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>io.quicksign</groupId>
-        <artifactId>kafka-encryption-samples</artifactId>
-        <version>0.0.0-SNAPSHOT</version>
-    </parent>
-
+    <groupId>io.quicksign</groupId>
     <artifactId>kafka-encryption-generatedkey-sample</artifactId>
+    <version>0.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-
     <name>kafka-encryption-generatedkey-sample</name>
     <description>Kafka Record Encryption - generated keys sample</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <kafka-encryption.version>0.2.0</kafka-encryption.version>
+    </properties>
 
     <dependencies>
 
         <dependency>
             <groupId>io.quicksign</groupId>
             <artifactId>kafka-encryption-core</artifactId>
+            <version>${kafka-encryption.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.quicksign</groupId>
             <artifactId>kafka-encryption-generatedkey</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>1.10.19</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>3.6.2</version>
-            <scope>test</scope>
+            <version>${kafka-encryption.version}</version>
         </dependency>
 
     </dependencies>

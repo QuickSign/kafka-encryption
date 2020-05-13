@@ -54,10 +54,7 @@ public class SamplesMain {
             Runnable task = activeModule.getBuilder().apply(masterKeyEncryption);
             executorService.submit(task);
         }
-
-
     }
-
 
     private enum Modules {
         PRODUCER("--producer", mk -> new SampleProducer(mk)),

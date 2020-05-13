@@ -72,7 +72,11 @@ public class SampleDecryptingConsumer implements Runnable {
             for (; true; ) {
                 ConsumerRecords<Long, String> records = consumer.poll(1000L);
                 records.forEach(
-                        record -> System.out.println("decrypted record: key=" + record.key() + ", offset=" + record.offset() + ", value=" + record.value())
+                        record -> System.out.println(
+                        "-------------------------------------------------------------\n" +
+                        "decrypted record: key=" + record.key() + ", offset=" + record.offset() + ", value=" + record.value() +
+                        "\n-------------------------------------------------------------\n\n"
+                        )
                 );
             }
         }

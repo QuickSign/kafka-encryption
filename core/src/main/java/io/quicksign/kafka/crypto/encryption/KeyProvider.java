@@ -22,16 +22,13 @@ package io.quicksign.kafka.crypto.encryption;
 import java.util.Optional;
 
 /**
- * A keyprovider has to provide the key associated to a keyref
- *
- * @see DefaultEncryptor
- * @see DefaultDecryptor
+ * A key provider has to provide the key associated to a keyRef.
  */
 public interface KeyProvider {
 
     /**
      * @param keyRef the reference of the key to retrieve
-     * @return the actual key or {@code Optional.empty()} if the key cannot not be found
+     * @return the actual key or {@code Optional.empty()} if the key cannot be found
      */
     Optional<byte[]> getKey(byte[] keyRef);
 }

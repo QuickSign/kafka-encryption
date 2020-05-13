@@ -31,8 +31,7 @@ public interface Decryptor {
      *
      * @param data   value to be decrypted
      * @param keyRef reference to the decryption key
-     * @return the decrypted value or {@code null}null if the key can not be retieve or if decryption fails
+     * @return the decrypted value or {@code null} if the key cannot be retrieved or if decryption fails
      */
     byte[] decrypt(byte[] data, byte[] keyRef);
-
 }

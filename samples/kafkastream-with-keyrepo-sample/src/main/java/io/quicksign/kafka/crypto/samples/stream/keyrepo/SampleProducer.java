@@ -74,7 +74,7 @@ public class SampleProducer implements Runnable {
 
                 if (i % 100 == 99) {
                     try {
-                        Thread.sleep(10000L);
+                        Thread.sleep(2000L);
                     }
                     catch (InterruptedException e) {
                         return;

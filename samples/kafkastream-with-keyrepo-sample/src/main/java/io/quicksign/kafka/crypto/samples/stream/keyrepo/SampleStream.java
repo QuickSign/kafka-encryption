@@ -97,7 +97,7 @@ public class SampleStream implements Runnable {
 
             for (; true; ) {
                 try {
-                    Thread.sleep(10000L);
+                    Thread.sleep(3000L);
                 }
                 catch (InterruptedException e) {
                     return;
@@ -122,7 +122,11 @@ public class SampleStream implements Runnable {
                     ObjectNode node = JsonNodeFactory.instance.objectNode();
                     node.set(name, arrayNode);
 
-                    System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(node));
+                    System.out.println(
+                        "--[look up from KV store]------------------------------------\n" +
+                        mapper.writerWithDefaultPrettyPrinter().writeValueAsString(node) +
+                        "\n--------------------------------------\n\n"
+                    );
                     // end::display[]
                 }
                 catch (Exception e) {
