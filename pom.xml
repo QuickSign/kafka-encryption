@@ -112,7 +112,6 @@
         <module>core</module>
         <module>generatedkey</module>
         <module>keyrepository</module>
-        <module>samples</module>
     </modules>
 
     <build>
