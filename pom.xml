@@ -110,7 +110,6 @@
         <module>core</module>
         <module>generatedkey</module>
         <module>keyrepository</module>
-        <module>doc</module>
         <module>samples</module>
     </modules>
 
