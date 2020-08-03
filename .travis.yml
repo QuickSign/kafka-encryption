@@ -1,30 +1,24 @@
 language: java
-before_script:
-- gpg --import .ossci.gpg.key
+install: "/bin/true"
+script:
+- "./test"
 deploy:
-- provider: pages
-  skip-cleanup: true
-  github-token: "$GITHUB_TOKEN"
-  keep-history: false
-  local-dir: target/generated-docs/
+- skip_cleanup: true
+  provider: script
+  script: "./deploy"
   on:
     branch: master
-- provider: pages
-  skip-cleanup: true
-  github-token: "$GITHUB_TOKEN"
-  keep-history: false
-  local-dir: target/generated-docs/
-  repo: quicksign/kafka-encryption-dev
-  on:
-    branch: develop
-- provider: script
-  script: mvn -s .travis.settings.xml deploy -Prelease
-  skip_cleanup: true
+- skip_cleanup: true
+  provider: script
+  script: "./deploy"
   on:
     tags: true
-    branch: master
-- provider: script
-  script: mvn -s .travis.settings.xml deploy -Prelease
-  skip_cleanup: true
-  on:
-    branch: develop
+env:
+  global:
+  - secure: wKflQf8SH1bPuOidnDJon1HgV7k9Ly2+kZM/w++Ox3SMh38ZGWolvKjyofphD8Tf7m9VkGC6BYkyFO9PiFXtbDjgDdzMlWphDs1pRF89WpHVBAfUHozFL9AD8PrrzcGtEGasp1ALSuIJG+27DIhb0PSucJWPalaj9E0AJajFRAp3hilWezqbsIMToQLrsdtb0eHxn+F4GEarRdbDbMYJ7PQcI2n9vPniuwoUC4w89j9XPa1NxtpYgyYCTyDURyMJQ+aIRMhziiLzLCg3+VQfuPCBtaseLF0BLohAAyThYgpySEWU+NsmtESrAKllr3FyauOYTZZdcSr/viKgtlGEtmyzr/MUePLtSapEUQEed+x1N1WDaIzr8H+f8s2dL2eccoofa/l9sPfCGppdyUlfdwIG3wMVceQMhsPq2mcJo5kYlPr0c45C8bRylWlbv7xA/P1D5olfQzZZ85Y3kNABXr1YgY+uPgJFZWqK72bDIVcuZDfsM4IovbD8BMpnu9ejqlP/xZxl5ec9Qv4lLeigs9GK6XPBlqXMgR4oG2gOpQwmUDN62gxcLP83h/hSTx0mJmpnNAAx5aFpyZpafyn/EI9C/BVNaJQr+3I/FG6JWPKWT7GKVfZbaihREjOyPYbvavLt3caQFiNVt13xQz50TdGKnhidBtdOtfipOms/tPg=
+  - secure: cX/eE94xjgLBRwKr584sZMwUxjknPlZ91UiZsVhD7aS/XlB9RReigeBpupGnUUSEyAha+En4TwyXrzRw2QZaw+ZkzfI9nx+TwftyQ4XdVHEJNxKigjywRL1XpKBVXY0SJkw9mEHBxPCO2XdyI6IORw96g5vZddJzhlsRLrc5nLQookDvX2ki0rkGaGiACRsMaA47ODDn3EC8F5POmAtRQKJSajbNOvRNybQ+V5W8SRZZOycpenKVV/16GPQwip+hKHrC7fMF7310czj1G39JaEls0oWkwC74lbCpys/0PWw8v6dryMeUvMqbT6MwUx5CjihloSINBrW+mhm3/Nw0LVykjCOH6yQBM9GX4lJEUORhshVAtGeOEmxoIMrgeGY63AI5bjRb4h1ivUelWHOakzYTpMvLoYmdRApD+L0TYwSoojO4JFamk4t1gl3UCGVJVKeuBuB0knFCgb9uO8Ewr6KnCxTcw7ZY3i9M1SuhxPSvAZ32RH1GOSWJM0XwPue2e8yM2FePBAOVewV7Oaw2mzQeZCSULdcp/qpuMxyUhsI7b60ptDFPLy17wqLIcWw2wdx45WM9pBSuXBSarXu75sq4Yzu+E50LeYOdzv0qqwJzkuVKFABv8nldyLbHXYIuaMOz7M7m4o81FcdQvXlE3ZmC2q20HefNaiB6tJhaEUs=
+  - secure: uQpqiuWtIvmFfCqrQ3FJNcmFkpIq9PLuH1pwANpivEKvizCn3qXzSCoGEX+O1VImV3aTv/DcgQBsJdQjBRAhxtt1iOTUQBO6yWHa6hv6mQj1Vow2impTgAEZ2MzbwtJJW6cq7Op+uOHJ1hq/zrMYOXGPP0RzcIyGGBK4z71wPWNHS2+0rTKGUojfjISn2lTMc15Cdi0sjif4hTQE5Kgt20yEAQWohoBErPdJUNH9G8WphoHE0sKcSdZYGhN+ZKGQTRPND+bZTS2+oATTo09Et9qjo9NJwd/519CLR4XOhTp18pZ41VoSLSkabj6A/0wtvKHmoFUp3J1MfNJQ2Q3r1BquD48tfbXk1J5jR7NkG9rO9JqNnx8FnfZjfZj4x3Mmu/NXlSXo9PUcehHS/ZrNsGPB9xekMzu4StNoOYXxX0YZdr2SflOvOotKXIC7g+JAcAbq3VC7WFzgseCrLJgSaDD7481cYGqVfTOfrbmgm9kg1svCpWcrcsDGgYNyMapMS5vkDCKnX1/0cIkB2mr42JuCwZg6U80c7vzTCLiEPJA9s6XesiOdSUvS7d5ufgV8/9nKqv+9P9S4tjToz8Zb1EQ9cGXJMQfuiEfLrbkTuSzsTQVef6yk6UQqdfCKEAoce+VD+cuenpZLzTp80ZqgcAfsUfOoU3YIY7AbAZtJwTs=
+  - secure: L/cnvSYFZ7YgO+E17R23EqMhR9hXusueo4QZAdEuozQBz2S0xuSyS+U307Wx5Q+aNOtr/lqJXCUX47wRMaA7D1A/K3s3MDuWkTrPspUo2EE6EQ/KEkRWgaI5CjQxfjtLes7qBjFv5YhSNrc7kIHRStYgnNTIFB9y/pHRuSTwCKhChrgirmppfW/4txigQZFvZWd0W0lzh4mXRub1rz6AXN6U8Kg1tVAYWy/R5axJRKQqquHjioQTA8NGyRMJZsUjfupsifijP4DSBm2VqTOErnm89s7ZD1H6k0jmc7YG4H6eF+w31wRI1GriyBDaEKhGIqqMRPYoV5QDk8RDGnpFSnAM2uwLnJBii5esdrqYlmUvB6sGQn3zeB99C056+9QF2zB9Cyd9nlcuUnVVQnayzc0yKMMFasjktOn0QDO/ZV/wXvCOLuddauYvnwFsmqWlT71e53oph0MuAp/ch8mZZTiYk6Fxz2nhPFHqWbM3uRIMEy7QSC2Pp7zHcooZt97SxM3aCOaOJy6ULeKAiRrUJPnz8tJtRoKSTpn4Y4X4Nu7s5b0ClP3P6LNvkH3BbDZNVWusl6QWL7hmd1sAMe07373IjXhWvFFAuImxADYAIol3KGcR4g6RyOaTb0UT4ToxgNe2UAmwiGskEj6TN7fhNAzx/sHRz3qKOvmR6MfcbMM=
+before_install:
+- openssl aes-256-cbc -K $encrypted_4f0d00631887_key -iv $encrypted_4f0d00631887_iv
+  -in gpg.asc.enc -out .travis/gpg.asc -d

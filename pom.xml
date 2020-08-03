@@ -63,6 +63,8 @@
         </snapshotRepository>
     </distributionManagement>
 
+
+
     <dependencyManagement>
         <dependencies>
 
@@ -176,7 +178,7 @@
 
     <profiles>
         <profile>
-            <id>release</id>
+            <id>ossrh</id>
             <build>
                 <plugins>
                     <plugin>
@@ -204,6 +206,7 @@
                             <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         </configuration>
                     </plugin>
+
                 </plugins>
             </build>
         </profile>
