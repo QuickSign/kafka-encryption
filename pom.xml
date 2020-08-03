@@ -178,7 +178,7 @@
 
     <profiles>
         <profile>
-            <id>ossrh</id>
+            <id>publish</id>
             <build>
                 <plugins>
                     <plugin>
