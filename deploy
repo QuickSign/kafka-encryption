@@ -30,8 +30,6 @@ if [ -z "$GPG_PASSPHRASE" ]; then
   exit 1
 fi
 
-echo "ossrh username is ${OSSRH_USERNAME}"
-
 # Prepare the local keyring (requires travis to have decrypted the file
 # beforehand)
 gpg --fast-import .travis/gpg.asc
