@@ -129,3 +129,4 @@ In case the docker compose provided in the examples to run Kafka does not work f
 *On linux*
 
     docker run --rm --net=host -e ADV_HOST=localhost landoop/fast-data-dev:2.0.1
+
